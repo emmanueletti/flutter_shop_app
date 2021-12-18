@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/product.dart';
+import './product.dart';
 
 // ChangeNotifier is a class built in to Flutter which is related to the
 // magical "InheritedWidget" that is used in conjuction with the context object
@@ -43,11 +43,17 @@ class ProductsProvider with ChangeNotifier {
     ),
   ];
 
-  List<Product> get items => [..._items];
+  List<Product> get items {
+    return [..._items];
+  }
 
   // Can centralize logic for working with data found in the provider object
   // for maximum code re-useability and cleanliness
   Product findById(String id) {
     return _items.firstWhere((item) => item.id == id);
+  }
+
+  List<Product> get favouriteItems {
+    return _items.where((item) => item.isFavourite).toList();
   }
 }

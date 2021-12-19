@@ -21,7 +21,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
     // Listen is false b/c we dont want to rebuild widget on changes to cart
-    // only want to dispatch changes to the cart
+    // only want to dispatch changes to cart
     final cart = Provider.of<Cart>(context, listen: false);
 
     return GestureDetector(

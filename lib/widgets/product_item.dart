@@ -50,11 +50,28 @@ class ProductItem extends StatelessWidget {
               onPressed: () => product.toggleFavouriteStatus(),
             ),
             trailing: IconButton(
-              icon: Icon(Icons.shopping_cart),
-              color: Theme.of(context).accentColor,
-              onPressed: () =>
-                  cart.addItem(product.id, product.price, product.title),
-            ),
+                icon: Icon(Icons.shopping_cart),
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  cart.addItem(product.id, product.price, product.title);
+                  // Connects to the nearest scaffold widget - would not work to
+                  // use scaffold.of in a widget that does have a scaffold widget
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Added item to cart!',
+                      ),
+                      action: SnackBarAction(
+                        label: 'UNDO',
+                        onPressed: () {
+                          cart.removeSingleQuantity(product.id);
+                        },
+                      ),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }),
           ),
         ),
       ),

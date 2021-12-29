@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop_app/screens/orders_screen.dart';
+import 'package:flutter_shop_app/screens/user_products_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key key}) : super(key: key);
@@ -10,7 +11,8 @@ class AppDrawer extends StatelessWidget {
       child: Column(children: [
         AppBar(
           title: Text('App Menu'),
-          // Removes the back button icon and automatic addition of leading icon
+          // Removes the back button icon and prevents the
+          // automatic addition of leading icon
           automaticallyImplyLeading: false,
         ),
         Divider(),
@@ -26,6 +28,14 @@ class AppDrawer extends StatelessWidget {
           title: Text('Orders'),
           onTap: () {
             Navigator.pushReplacementNamed(context, OrdersScreen.routeName);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.edit),
+          title: Text('Manage Products'),
+          onTap: () {
+            Navigator.pushReplacementNamed(
+                context, UserProductsScreen.routeName);
           },
         ),
       ]),

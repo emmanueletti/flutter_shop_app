@@ -103,6 +103,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         // form value
                         controller: _imageUrlController,
                         focusNode: _imageUrlFocusNode,
+                        // force a setstate re-render when user leaves the
+                        // text input
                         onEditingComplete: () {
                           setState(() {});
                         },

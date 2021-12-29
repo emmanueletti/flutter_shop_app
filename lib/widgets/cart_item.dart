@@ -37,6 +37,32 @@ class CartItem extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       ),
       direction: DismissDirection.endToStart,
+      // confirmdismiss wants a bool at the end
+      confirmDismiss: (direction) {
+        // ShowDialog returns a future who's value we can configure
+        return showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                title: Text('Are you sure?'),
+                content: Text('Do you want to remove the item from the cart'),
+                actions: [
+                  FlatButton(
+                      onPressed: () {
+                        // Remember .pop takes the value it can pass to a
+                        // reciever - here a bool result is specified
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text('No')),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: Text('Yes'))
+                ],
+              );
+            });
+      },
       onDismissed: (direction) => cart.removeItem(productId),
       child: Card(
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),

@@ -26,6 +26,22 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   // great example of where one would use a local state vs tapping into provider
   // global state - the show only favourite only matters for this widget
   var _showFavouritesOnly = false;
+  var _isInit = false;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_isInit) {
+      setState(() => _isLoading = true);
+      // Async/Await methods are automatically wraped in a Future and return
+      // a Future and thus then-able
+      Provider.of<ProductsProvider>(context).fetchAndSetProducts().then((_) {
+        setState(() => _isLoading = false);
+      });
+    }
+    _isInit = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +94,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showFavouritesOnly),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ProductsGrid(_showFavouritesOnly),
     );
   }
 }

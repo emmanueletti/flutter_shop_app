@@ -11,6 +11,11 @@ class UserProductsScreen extends StatelessWidget {
 
   static const routeName = '/user-products-screen';
 
+  Future<void> _refreshProducts(context) async {
+    await Provider.of<ProductsProvider>(context, listen: false)
+        .fetchAndSetProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<ProductsProvider>(context);
@@ -27,22 +32,26 @@ class UserProductsScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: productsData.items.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                UserProductItem(
-                  id: productsData.items[index].id,
-                  title: productsData.items[index].title,
-                  imageUrl: productsData.items[index].imageUrl,
-                ),
-                Divider(),
-              ],
-            );
-          },
+      // PULL DOWN TO REFRESH PATTERN RIGHT IN FLUTTER !!!
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: productsData.items.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  UserProductItem(
+                    id: productsData.items[index].id,
+                    title: productsData.items[index].title,
+                    imageUrl: productsData.items[index].imageUrl,
+                  ),
+                  Divider(),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

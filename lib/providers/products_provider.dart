@@ -75,4 +75,9 @@ class ProductsProvider with ChangeNotifier {
     _items[prodIndex] = newProduct;
     notifyListeners();
   }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 }
